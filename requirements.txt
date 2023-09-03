@@ -19,7 +19,7 @@ constantly==15.1.0
 cssselect==1.1.0
 cymem==2.0.7
 daal4py==2023.1.1
-datashape==0.5.4
+datashape
 et-xmlfile==1.1.0
 fastai==2.7.12
 fastcore==1.5.29
