@@ -1,4 +1,4 @@
-anaconda-project
+pip
 annotated-types==0.5.0
 anyio
 appdirs==1.4.4
@@ -62,7 +62,6 @@ pathy==0.10.2
 patsy==0.5.3
 pep8==1.7.1
 Pillow==9.4.0
-pip
 plotly==5.16.1
 ply==3.11
 preshed==3.0.8
