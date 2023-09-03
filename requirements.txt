@@ -65,7 +65,7 @@ preshed==3.0.8
 protobuf==4.24.0
 pyarrow==11.0.0
 pyasn1-modules==0.2.8
-pycurl==7.45.2
+pycurl
 pydantic
 pydantic_core
 pydeck==0.8.0
