@@ -9,13 +9,13 @@ model = joblib.load('ANN model_2.pkl')
 categories = {
     "Student's home address type (address)": ["urban", "rural"],
     "Parent's cohabitation status (pstatus)" :["Living together", "Apart"],
-    "Mother's Education (Medu)": list(range(5)),
-    "Father's Education (Fedu)": list(range(5)),
+    "Mother's Education (Medu)": ["none", "primary education(4th grade)", "5th to 9th grade", "secondary education", "higher education"],
+    "Father's Education (Fedu)": ["none", "primary education(4th grade)", "5th to 9th grade", "secondary education", "higher education"],
     "Family size(famsize)": ["less or equal to 3","greater than 3"],
-    "Reason to Choose This School (reason)": list(range(4)),
+    "Reason to Choose This School (reason)": ["close to home", "school reputation", "course preference", "other"],
     "Guardian Type (guardian)": ["mother", "father", "other"],
-    "Travel Time to School (traveltime)": list(range(1, 5)),
-    "Study Time (studytime)": list(range(1, 5)),
+    "Travel Time to School (traveltime)": ["less than 15 min", "15 to 30 min", "30 min to 1 hour", "greater than 1 hour"],
+    "Study Time (studytime)": ["less than 2 hours", "2 to 5 hours", "5 to 10 hours", "more than 10 hours"],
     "Number of Past Class Failures (failures)": list(range(4)),
     "Extra Educational Support (schoolsup)": ["no", "yes"],
     "Family Educational Support (famsup)": ["no", "yes"],
@@ -42,7 +42,12 @@ categories = {
 mapping_dict = {
     "Student's home address type (address)": {"urban":0, "rural":1},
     "Parent's cohabitation status (pstatus)" :{"Living together":0, "Apart":1},
+    "Mother's Education (Medu)": {"none": 0, "primary education(4th grade)": 1, "5th to 9th grade": 2, "secondary education": 3, "higher education": 4},
+    "Father's Education (Fedu)": {"none": 0, "primary education(4th grade)": 1, "5th to 9th grade": 2, "secondary education": 3, "higher education": 4},
+    "Reason to Choose This School (reason)": {"close to home":0, "school reputation":1, "course preference":2, "other":3},
     "Guardian Type (guardian)": {"mother": 0, "father": 1, "other": 2},
+    "Travel Time to School (traveltime)": {"less than 15 min": 1, "15 to 30 min": 2, "30 min to 1 hour": 3, "greater than 1 hour": 4},
+    "Study Time (studytime)": {"less than 2 hours": 1, "2 to 5 hours": 2, "5 to 10 hours": 3, "more than 10 hours": 4},
     "Family size(famsize)": {"less or equal to 3": 0,"greater than 3": 1},
     "Extra Educational Support (schoolsup)": {"no": 0, "yes": 1},
     "Family Educational Support (famsup)": {"no": 0, "yes": 1},
@@ -85,15 +90,14 @@ def main():
         
         # Print predicted value and determined category
         print("Predicted value:", prediction[0])
-        if prediction[0] < 15:
+        if prediction[0][0] < 15:
             output = "Poor"
-        elif prediction[0] >= 15 and prediction[0] < 30:
+        elif prediction[0][0] >= 15 and prediction[0][0] < 30:
             output = "Fair"
-        elif prediction[0] >= 30 and prediction[0] < 45:
+        elif prediction[0][0] >= 30 and prediction[0][0] < 45:
             output = "Good"
         else:
             output = "Exceptional"
-        print("Performance category:", output)
         
         st.write(f"The predicted Student Performance is: {output}")
 
