@@ -3,8 +3,7 @@ import streamlit as st
 from keras.models import load_model
 
 # Load the Keras model
-try:
-    model = load_model('ANN_model_6.h5')
+model = load_model('ANN_model_6.h5')
 for layer in model.layers:
     print(layer.name)
 #except Exception as e:
