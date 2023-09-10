@@ -3,7 +3,7 @@ import streamlit as st
 from keras.models import load_model
 
 # Load the Keras model
-model = load_model(r'C:\Users\ADMIN\Downloads\ANN_model_6.keras')
+model = load_model('ANN_model_6.keras')
 
 # Mapping of categories for the select boxes
 categories = {
