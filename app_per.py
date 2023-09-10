@@ -4,9 +4,11 @@ from keras.models import load_model
 
 # Load the Keras model
 try:
-    model = load_model('ANN_model_6.keras')
-except Exception as e:
-    st.error(f"Error loading the model: {str(e)}")
+    model = load_model('ANN_model_6.h5')
+for layer in model.layers:
+    print(layer.name)
+#except Exception as e:
+ #   st.error(f"Error loading the model: {str(e)}")
 # Mapping of categories for the select boxes
 categories = {
     "Family size(famsize)": ["less or equal to 3","greater than 3"],
