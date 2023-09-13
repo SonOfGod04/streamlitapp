@@ -1,9 +1,10 @@
 import numpy as np
 import streamlit as st
+from streamlit import slider
 from keras.models import load_model
 
 # Load the Keras model
-model = load_model('ANN_model_7.h5')
+model = load_model('ANN_model_9.h5')
 
 for layer in model.layers:
     print(layer.name)
@@ -35,9 +36,9 @@ categories = {
     "Workday Alcohol Consumption (Dalc)": list(range(1, 6)),
     "Weekend Alcohol Consumption (Walc)": list(range(1, 6)),
     "Current Health Status (health)": list(range(1, 6)),
-    "Number of School Absences (absences)": list(range(0, 101)),
-    "First Period Grade (G1)": list(range(0, 21)),
-    "Second Period Grade (G2)": list(range(0, 21)),
+    #"Number of School Absences (absences)": list(range(0, 101)),
+    #"First Period Grade (G1)": list(range(0, 21)),
+    #"Second Period Grade (G2)": list(range(0, 21)),
 }
 
 # Create mapping dictionaries for categorical features
@@ -61,11 +62,15 @@ mapping_dict = {
     "With a Romantic Relationship (romantic)": {"no": 0, "yes": 1}
 }
 
+
 def make_prediction(features):
     # Convert all categorical features from strings to integers using mapping_dict
     for feature_name in categories:
         if feature_name in mapping_dict:
             selected_value = features[feature_name]
+            # Ensure the value is an integer
+            if isinstance(selected_value, float):
+                selected_value = int(selected_value)
             mapped_value = mapping_dict[feature_name][selected_value]
             features[feature_name] = mapped_value
     
@@ -75,32 +80,65 @@ def make_prediction(features):
 
 
 # Streamlit app
+# Streamlit app
 def main():
     st.title("Student Performance Predictor")
     st.write("Select the features below to predict Performance of Student:")
 
     n_features = {}
+
+    # Use sliders for features with large ranges
+    absences = slider("Number of School Absences (absences)", 0, 100, step=1)
+    g1 = slider("First Period Grade (G1)", 0, 20, step=1)
+    g2 = slider("Second Period Grade (G2)", 0, 20, step=1)
+
+    # Update the n_features dictionary with slider values
+    n_features["Number of School Absences (absences)"] = absences
+    n_features["First Period Grade (G1)"] = g1
+    n_features["Second Period Grade (G2)"] = g2
+
     for feature_name, category_values in categories.items():
-        feature_value = st.selectbox(feature_name, category_values)
+        # Use select boxes for other features
+        feature_value = st.selectbox(feature_name, category_values, key=feature_name)
         n_features[feature_name] = feature_value
 
     if st.button("Predict"):
         prediction = make_prediction(n_features)
         
-        # Print predicted value and determined category
-        print("Predicted value:", prediction[0])
-        if prediction[0][0] < 10:
-            output = "Poor"
-        elif prediction[0][0] >= 10 and prediction[0][0] < 15:
-            output = "Fair"
-        #elif prediction[0][0] >= 15 and prediction[0][0] < 20:
-         #   output = "Good"
-        else:
-            output = "Exceptional"
+         
 
-        print("Performance category:", output)
+        # Map the predicted class to the actual class labels
+        predicted_class = np.argmax(prediction)
+
+        # Define the class labels
+        class_labels = {
+            0: "Poor",
+            4: "Poor",
+            5: "Poor",
+            6: "Poor",
+            7: "Poor",
+            8: "Poor",
+            9: "Poor",
+            10: "Good(10)",
+            11: "Good(11)",
+            12: "Good",
+            13: "Good",
+            14: "Good",
+            15: "Very Good",
+            16: "Very Good",
+            17: "Very Good",
+            18: "Very Good",
+            19: "Very Good",
+            20: "Very Good",
+        }
+
+        # Get the predicted class label
+        predicted_label = class_labels.get(predicted_class, "Unknown")
+
+        # Display the predicted class label
+        st.write(f"The predicted Student Performance is: {predicted_label}")
+
     
-        st.write(f"The predicted Student Performance is: {output}")
 
 if __name__ == "__main__":
     main()
