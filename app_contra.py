@@ -3,7 +3,7 @@ import streamlit as st
 import joblib
 
 # Load the stacked model
-stacked_model = joblib.load('stacking_model.pkl')
+stacked_model = joblib.load('stacking_model7.pkl')
 
 # Mapping of categories for the select boxes
 categories = {
@@ -53,7 +53,7 @@ def main():
 
         if prediction[0] == 1:
             output = "No use"
-        elif prediction[0] == 0:
+        elif prediction[0] == 2:
             output = "Long time"
         else:
             output = "Short time"
